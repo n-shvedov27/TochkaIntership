@@ -27,7 +27,7 @@ object GitHubRestApi {
         return gitHubApi.filterGitHubUsers(filter, page, perPage, TOKEN)
     }
 
-    fun getAllHitHubUsers(page: Int, perPage: Int): Call<List<UserItem>> {
+    fun getAllGitHubUsers(page: Int, perPage: Int): Call<List<UserItem>> {
         return gitHubApi.getAllGitHubUsers(page, perPage, TOKEN)
     }
 

@@ -39,7 +39,7 @@ class EmployeeViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
 
         itemView.setOnClickListener {
             val intent = Intent(itemView.context, UserProfileActivity::class.java)
-            intent.putExtra(UserProfileActivity.USER_URL_EXTRA_KEY, this.item?.login)
+            intent.putExtra(UserProfileActivity.USER_NAME_EXTRA_KEY, this.item?.login)
             itemView.context.startActivity(intent)
         }
     }
