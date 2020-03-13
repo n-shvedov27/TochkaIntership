@@ -1,16 +1,12 @@
 package com.bignerdranch.android.kitsexample.data.datasource
 
-import android.app.Application
 import android.util.Log
-import android.widget.Toast
 import androidx.paging.PageKeyedDataSource
-import com.bignerdranch.android.kitsexample.R
 import com.bignerdranch.android.kitsexample.data.entities.UserItem
 import com.bignerdranch.android.kitsexample.data.network.GitHubRestApi
 import java.io.IOException
 
-class EmployeePageKeyedDataSource :
-    PageKeyedDataSource<Int, UserItem>() {
+class EmployeePageKeyedDataSource : PageKeyedDataSource<Int, UserItem>() {
     private fun parseIndexFromLinkHeader(string: String): Int =
         string.split("since=", "&")[1].toInt()
 
@@ -30,7 +26,10 @@ class EmployeePageKeyedDataSource :
         }
     }
 
-    override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, UserItem>) {
+    override fun loadAfter(
+        params: LoadParams<Int>,
+        callback: LoadCallback<Int, UserItem>
+    ) {
         try {
             val result = GitHubRestApi
                 .getAllGitHubUsers(params.key, params.requestedLoadSize)
@@ -44,7 +43,10 @@ class EmployeePageKeyedDataSource :
         }
     }
 
-    override fun loadBefore(params: LoadParams<Int>, callback: LoadCallback<Int, UserItem>) {
+    override fun loadBefore(
+        params: LoadParams<Int>,
+        callback: LoadCallback<Int, UserItem>
+    ) {
         try {
             val result = GitHubRestApi
                 .getAllGitHubUsers(params.key, params.requestedLoadSize)

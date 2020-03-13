@@ -1,20 +1,15 @@
 package com.bignerdranch.android.kitsexample.data.datasource
 
-import android.app.Application
 import android.util.Log
-import android.widget.Toast
 import androidx.paging.PageKeyedDataSource
-import com.bignerdranch.android.kitsexample.R
 import com.bignerdranch.android.kitsexample.data.entities.UserItem
 import com.bignerdranch.android.kitsexample.data.network.GitHubRestApi
 import java.io.IOException
 
 
-class FilteringEmployeePageKeyedDataSource(
-    private val queryFilter: String
-) : PageKeyedDataSource<Int, UserItem>() {
-
-
+class FilteringEmployeePageKeyedDataSource(private val queryFilter: String)
+    : PageKeyedDataSource<Int, UserItem>()
+{
     override fun loadInitial(
         params: LoadInitialParams<Int>,
         callback: LoadInitialCallback<Int, UserItem>
@@ -31,7 +26,10 @@ class FilteringEmployeePageKeyedDataSource(
         }
     }
 
-    override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, UserItem>) {
+    override fun loadAfter(
+        params: LoadParams<Int>,
+        callback: LoadCallback<Int, UserItem>
+    ) {
         try {
             val result = GitHubRestApi
                 .filterGitHubUsers(queryFilter, params.key, params.requestedLoadSize)
@@ -43,7 +41,10 @@ class FilteringEmployeePageKeyedDataSource(
         }
     }
 
-    override fun loadBefore(params: LoadParams<Int>, callback: LoadCallback<Int, UserItem>) {
+    override fun loadBefore(
+        params: LoadParams<Int>,
+        callback: LoadCallback<Int, UserItem>
+    ) {
         try {
             val result = GitHubRestApi
                 .filterGitHubUsers(queryFilter, params.key, params.requestedLoadSize)

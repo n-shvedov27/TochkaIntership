@@ -11,12 +11,15 @@ import com.bignerdranch.android.kitsexample.R
 
 
 class CustomExpandableListAdapter(
-    private val context: Context, private val expandableListTitle: List<String>,
+    private val context: Context,
+    private val expandableListTitle: List<String>,
     private val expandableListDetail: Map<String, List<String>>
 ) : BaseExpandableListAdapter() {
 
     override fun getChild(listPosition: Int, expandedListPosition: Int): Any {
-        return this.expandableListDetail[this.expandableListTitle[listPosition]]!![expandedListPosition]
+        val categoryName = expandableListTitle[listPosition]
+        return (expandableListDetail[categoryName]
+            ?:  error(CATEGORY_NOT_FOUND_MESSAGE))[expandedListPosition]
     }
 
     override fun getChildId(listPosition: Int, expandedListPosition: Int): Long {
@@ -80,5 +83,9 @@ class CustomExpandableListAdapter(
 
     override fun isChildSelectable(listPosition: Int, expandedListPosition: Int): Boolean {
         return true
+    }
+
+    companion object{
+        const val CATEGORY_NOT_FOUND_MESSAGE = "category not found"
     }
 }

@@ -19,6 +19,25 @@ class UserProfileActivity : AppCompatActivity() {
         ViewModelProviders.of(this).get(UserProfileViewModel::class.java)
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_user_profile)
+        userName = intent.getStringExtra(USER_NAME_EXTRA_KEY)
+
+        userInfo = mutableMapOf(
+            getString(R.string.repositories) to LinkedList(),
+            getString(R.string.followers) to LinkedList()
+        )
+
+        if (hasInternetConnection()) {
+            userName?.let {
+                observeUserInfo(it)
+            }
+        } else {
+            Toast.makeText(this, getString(R.string.no_internet_message), Toast.LENGTH_LONG).show()
+        }
+    }
+
     private fun hasInternetConnection() : Boolean {
         val connectivityManager = getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
         val netInfo = connectivityManager.activeNetworkInfo
@@ -55,25 +74,6 @@ class UserProfileActivity : AppCompatActivity() {
         expandableListView.setAdapter(expandableListAdapter)
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_user_profile)
-        userName = intent.getStringExtra(USER_NAME_EXTRA_KEY)
-
-        userInfo = mutableMapOf(
-            getString(R.string.repositories) to LinkedList(),
-            getString(R.string.followers) to LinkedList()
-        )
-
-        if (hasInternetConnection()) {
-            userName?.let {
-                observeUserInfo(it)
-            }
-        } else {
-            Toast.makeText(this, getString(R.string.no_internet_message), Toast.LENGTH_LONG).show()
-        }
-    }
-
     override fun onResume() {
         super.onResume()
         updateExpandableList()
@@ -83,8 +83,7 @@ class UserProfileActivity : AppCompatActivity() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        val a = userInfo as HashMap
-        outState.putSerializable(USER_INFO_EXTRA_KEY, a)
+        outState.putSerializable(USER_INFO_EXTRA_KEY, userInfo as HashMap)
         outState.putString(USER_NAME_EXTRA_KEY, userName)
     }
 

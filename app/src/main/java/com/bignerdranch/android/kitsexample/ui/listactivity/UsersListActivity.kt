@@ -17,12 +17,6 @@ class UsersListActivity : AppCompatActivity() {
         ViewModelProviders.of(this).get(UserListViewModel::class.java)
     }
 
-    private fun hasInternetConnection() : Boolean {
-        val connectivityManager = getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
-        val netInfo = connectivityManager.activeNetworkInfo
-        return netInfo != null && netInfo.isConnected
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_users_list)
@@ -33,6 +27,12 @@ class UsersListActivity : AppCompatActivity() {
         } else {
             Toast.makeText(this, getString(R.string.no_internet_message), Toast.LENGTH_LONG).show()
         }
+    }
+
+    private fun hasInternetConnection() : Boolean {
+        val connectivityManager = getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
+        val netInfo = connectivityManager.activeNetworkInfo
+        return netInfo != null && netInfo.isConnected
     }
 
     private fun updateUsersList() {

@@ -10,7 +10,8 @@ class EmployeeAdapter : PagedListAdapter<UserItem, EmployeeViewHolder>(diffCallb
         EmployeeViewHolder(parent)
 
 
-    override fun onBindViewHolder(holder: EmployeeViewHolder, position: Int) = holder.bindTo(getItem(position)!!)
+    override fun onBindViewHolder(holder: EmployeeViewHolder, position: Int) =
+        holder.bindTo(getItem(position)!!)
 
     companion object {
         private val diffCallback = object : DiffUtil.ItemCallback<UserItem>() {
