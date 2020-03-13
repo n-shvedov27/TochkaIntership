@@ -3,4 +3,5 @@
     <string name="search_hint">Поиск:</string>
     <string name="repositories">repo</string>
     <string name="followers">followers</string>
+    <string name="no_internet_message">Пожалуйста, подключитесь к сети</string>
 </resources>

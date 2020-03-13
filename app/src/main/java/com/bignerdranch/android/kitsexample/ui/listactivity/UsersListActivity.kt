@@ -1,7 +1,9 @@
 package com.bignerdranch.android.kitsexample.ui.listactivity
 
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -15,13 +17,22 @@ class UsersListActivity : AppCompatActivity() {
         ViewModelProviders.of(this).get(UserListViewModel::class.java)
     }
 
+    private fun hasInternetConnection() : Boolean {
+        val connectivityManager = getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
+        val netInfo = connectivityManager.activeNetworkInfo
+        return netInfo != null && netInfo.isConnected
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_users_list)
 
         initSearchField()
-        searchForResults("")
+        if (hasInternetConnection()) {
+            searchForResults("")
+        } else {
+            Toast.makeText(this, getString(R.string.no_internet_message), Toast.LENGTH_LONG).show()
+        }
     }
 
     private fun updateUsersList() {
@@ -46,7 +57,11 @@ class UsersListActivity : AppCompatActivity() {
     private fun initSearchField() {
         search_start_view.setOnClickListener {
             hideKeyboard()
-            searchForResults(search_input_view.text.toString())
+            if (hasInternetConnection()) {
+                searchForResults(search_input_view.text.toString())
+            } else {
+                Toast.makeText(this, getString(R.string.no_internet_message), Toast.LENGTH_LONG).show()
+            }
         }
     }
 }
